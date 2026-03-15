@@ -1,9 +1,9 @@
+import cors from 'cors'
 import 'dotenv/config'
+import express from 'express'
+import mongoose from 'mongoose'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import express from 'express'
-import cors from 'cors'
-import mongoose from 'mongoose'
 import taskRoutes from './routes/tasks.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -17,7 +17,7 @@ app.use('/api/tasks', taskRoutes)
 // Serve frontend static files
 const clientDist = path.join(__dirname, '../../dist')
 app.use(express.static(clientDist))
-app.get('*', (_req, res) => {
+app.get('/{*path}', (_req, res) => {
   res.sendFile(path.join(clientDist, 'index.html'))
 })
 
