@@ -39,7 +39,7 @@ export default function Calendar() {
     getTasksForDate,
   } = useTasks(dateRange.start, dateRange.end)
 
-  const [countryCode, setCountryCode] = useState('')
+  const [countryCode, setCountryCode] = useState('UA')
   const [countries, setCountries] = useState<
     { countryCode: string; name: string }[]
   >([])
