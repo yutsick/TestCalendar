@@ -19,7 +19,7 @@ export function useCalendar() {
   const days = useMemo<DayCell[]>(() => {
     const firstDay = new Date(year, month, 1)
     const lastDay = new Date(year, month + 1, 0)
-    const startDow = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1 // Monday=0
+    const startDow = firstDay.getDay() // Sunday=0
 
     const cells: DayCell[] = []
 

@@ -18,7 +18,7 @@ import {
   DayHeader,
 } from './styles'
 
-const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 export default function Calendar() {
   const {
@@ -39,7 +39,7 @@ export default function Calendar() {
     getTasksForDate,
   } = useTasks(dateRange.start, dateRange.end)
 
-  const [countryCode, setCountryCode] = useState('UA')
+  const [countryCode, setCountryCode] = useState('')
   const [countries, setCountries] = useState<
     { countryCode: string; name: string }[]
   >([])
@@ -166,6 +166,7 @@ export default function Calendar() {
           value={countryCode}
           onChange={(e) => setCountryCode(e.target.value)}
         >
+          <option value="">All</option>
           {countries.map((c) => (
             <option key={c.countryCode} value={c.countryCode}>
               {c.name}

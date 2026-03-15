@@ -1,18 +1,25 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { Holiday } from '../types'
-import { fetchHolidays } from '../api/holidays'
+import { fetchHolidays, fetchCountries } from '../api/holidays'
 
 export function useHolidays(year: number, countryCode: string) {
   const [holidays, setHolidays] = useState<Holiday[]>([])
 
   useEffect(() => {
-    if (!countryCode) return
     let cancelled = false
 
     const load = async () => {
       try {
-        const data = await fetchHolidays(year, countryCode)
-        if (!cancelled) setHolidays(data)
+        if (countryCode) {
+          const data = await fetchHolidays(year, countryCode)
+          if (!cancelled) setHolidays(data)
+        } else {
+          const countries = await fetchCountries()
+          const results = await Promise.all(
+            countries.map((c) => fetchHolidays(year, c.countryCode))
+          )
+          if (!cancelled) setHolidays(results.flat())
+        }
       } catch (err) {
         console.error('Failed to load holidays:', err)
       }
