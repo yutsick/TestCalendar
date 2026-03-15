@@ -264,3 +264,29 @@ export const AddTaskArea = styled.div`
     color: #4a90d9;
   }
 `
+
+export const LoadingOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  font-size: 14px;
+  color: #6b7280;
+
+  &::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #4a90d9;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+`

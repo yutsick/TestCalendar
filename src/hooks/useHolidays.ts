@@ -4,9 +4,11 @@ import { fetchHolidays, fetchCountries } from '../api/holidays'
 
 export function useHolidays(year: number, countryCode: string) {
   const [holidays, setHolidays] = useState<Holiday[]>([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     let cancelled = false
+    setLoading(true)
 
     const load = async () => {
       try {
@@ -22,6 +24,8 @@ export function useHolidays(year: number, countryCode: string) {
         }
       } catch (err) {
         console.error('Failed to load holidays:', err)
+      } finally {
+        if (!cancelled) setLoading(false)
       }
     }
     load()
@@ -36,5 +40,5 @@ export function useHolidays(year: number, countryCode: string) {
     [holidays]
   )
 
-  return { holidays, getHolidaysForDate }
+  return { holidays, loading, getHolidaysForDate }
 }

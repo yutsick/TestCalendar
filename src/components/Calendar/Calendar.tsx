@@ -16,6 +16,7 @@ import {
   CountrySelect,
   Grid,
   DayHeader,
+  LoadingOverlay,
 } from './styles'
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -39,13 +40,13 @@ export default function Calendar() {
     getTasksForDate,
   } = useTasks(dateRange.start, dateRange.end)
 
-  const [countryCode, setCountryCode] = useState('UA')
+  const [countryCode, setCountryCode] = useState('')
   const [countries, setCountries] = useState<
     { countryCode: string; name: string }[]
   >([])
   const [searchQuery, setSearchQuery] = useState('')
 
-  const { getHolidaysForDate } = useHolidays(year, countryCode)
+  const { getHolidaysForDate, loading: holidaysLoading } = useHolidays(year, countryCode)
 
   useEffect(() => {
     fetchCountries().then(setCountries).catch(console.error)
@@ -175,7 +176,9 @@ export default function Calendar() {
         </CountrySelect>
       </Header>
 
-      <Grid>
+      <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {holidaysLoading && <LoadingOverlay />}
+        <Grid>
         {WEEKDAYS.map((d) => (
           <DayHeader key={d}>{d}</DayHeader>
         ))}
@@ -197,6 +200,7 @@ export default function Calendar() {
           />
         ))}
       </Grid>
+      </div>
     </CalendarWrapper>
   )
 }
